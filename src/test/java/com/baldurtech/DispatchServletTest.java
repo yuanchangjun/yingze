@@ -13,4 +13,7 @@ public class DispatchServletTest extends TestCase{
     public void test_uri_contact_应该由ContactAction来处理(){       
         assertEquals(actionClassName,dispatchServlet.getActionClassNameByUri("/contact"));
     }
+    public void test_uri_contact_show_的处理方法是show(){
+        assertEquals("show",dispatchServlet.getActionMethodNameByUri("/contact/show"));
+    }
 } 
