@@ -7,6 +7,6 @@ public class ContactRepositoryTest extends TestCase{
         DataBaseManagerMock db = new DataBaseManagerMock();
         ContactRepository contactRepository = new ContactRepository(db);
         contactRepository.deleteById(1L);
-        assertEquals("DELETE FROM contact WHERE id=1L",db.executeUpdateParm);
+        assertEquals("DELETE FROM contact WHERE id=1",db.executeUpdateParm);
     }
 }

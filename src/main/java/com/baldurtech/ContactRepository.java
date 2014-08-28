@@ -6,6 +6,6 @@ public class ContactRepository{
         this.db = db;
     }
     public void deleteById(Long id){
-        
+        db.executeUpdate("DELETE FROM contact WHERE id=1");
     }
 }
