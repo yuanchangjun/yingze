@@ -9,4 +9,14 @@ public class ContactRepositoryTest extends TestCase{
         contactRepository.deleteById(1L);
         assertEquals("DELETE FROM contact WHERE id=1",db.executeUpdateParm);
     }
+
+    public void test_更新指定的contact(){
+        DataBaseManagerMock db = new DataBaseManagerMock();
+        ContactRepository contactRepository = new ContactRepository(db);
+        Contact contact = new Contact();
+        contact.setId(2L);
+        contact.setName("Tom");
+        contactRepository.update(contact);
+        assertEquals("UPDATE contact SET name=tom WHERE id=2",db.executeUpdateParm);
+    }
 }
