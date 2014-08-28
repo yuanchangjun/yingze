@@ -16,13 +16,13 @@ public class DispatchServlet extends HttpServlet{
 
     public String getActionClassNameByUri(String uri){
         int indexOfActionClassName = 1;
-        String[] uriParts = uri.split("/");       
+        String[] uriParts = splitBySlash(uri);       
         String actionClassName = capitalize(uriParts[indexOfActionClassName]);
         return defaultPackageName + "." + actionClassName + "Action";        
     }
     public String getActionMethodNameByUri(String uri){
         int indexOfActionMethodName = 2;
-        String[] uriParts = uri.split("/");
+        String[] uriParts = splitBySlash(uri);
         if(uriParts.length<=indexOfActionMethodName){
             return "index";
         }else{
@@ -30,7 +30,10 @@ public class DispatchServlet extends HttpServlet{
         }               
     }
     public String capitalize(String actionClassName){
-       return actionClassName.substring(0,1).toUpperCase()+actionClassName.substring(1);
+        return actionClassName.substring(0,1).toUpperCase()+actionClassName.substring(1);
+    }
+    public String[] splitBySlash(String uri){
+        return uri.split("/");
     }
 
 }
