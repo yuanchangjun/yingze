@@ -28,7 +28,7 @@ public class DispatchServlet extends HttpServlet{
         if(uriParts.length<=indexOfActionMethodName){
             return "index";
         }else{
-            return uriParts[indexOfActionMethodName].replace(methodSuffix,"");
+            return removeMethodSuffix(uriParts[indexOfActionMethodName]);
         }               
     }
     public String capitalize(String actionClassName){
@@ -36,6 +36,9 @@ public class DispatchServlet extends HttpServlet{
     }
     public String[] splitBySlash(String uri){
         return uri.split("/");
+    }
+    public String removeMethodSuffix(String str){
+        return str.replace(methodSuffix,"");
     }
 
 }
