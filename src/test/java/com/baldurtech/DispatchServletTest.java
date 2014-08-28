@@ -19,4 +19,7 @@ public class DispatchServletTest extends TestCase{
     public void test_uri_contact_的默认处理方法是index(){
         assertEquals("index",dispatchServlet.getActionMethodNameByUri("/contact"));
     }
+    public void test_uri_contact_with_slash_suffix_的默认处理方法是index(){
+        assertEquals("index",dispatchServlet.getActionMethodNameByUri("/contact/"));
+    }
 } 
