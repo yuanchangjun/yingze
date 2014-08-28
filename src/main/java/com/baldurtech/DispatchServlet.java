@@ -11,10 +11,16 @@ public class DispatchServlet extends HttpServlet{
         throws IOException,ServletException{        
         
     }
+     
+    String defaultPackageName = "com.baldurtech";
+
     public String getActionClassNameByUri(String uri){
-        String[] uriParts = uri.split("/");
-        String actionClassName = uriParts[1];
-        actionClassName = actionClassName.substring(0,1).toUpperCase()+actionClassName.substring(1);
-        return "com.baldurtech." + actionClassName + "Action";        
+        int indexOfActionClassName = 1;
+        String[] uriParts = uri.split("/");       
+        String actionClassName = capitalize(uriParts[indexOfActionClassName]);
+        return defaultPackageName + "." + actionClassName + "Action";        
+    }
+    public String capitalize(String actionClassName){
+       return actionClassName.substring(0,1).toUpperCase()+actionClassName.substring(1);
     }
 }
