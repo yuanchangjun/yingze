@@ -21,8 +21,10 @@ CLASSPATH_TEST="$CLASSPATH_RUNTIME"
     CLASSPATH_TEST="$CLASSPATH_TEST;$JARFILE"
 done
 
-find src/main/java -type f -name \*.java | xargs javac -encoding "UTF-8" -d target/classes -classpath $CLASSPATH
+JAVAC_OPTS="-Xlint:unchecked"
 
-find src/test/java -type f -name \*.java | xargs javac -encoding "UTF-8" -d target/test-classes -classpath $CLASSPATH_TEST
+find src/main/java -type f -name \*.java | xargs javac "$JAVAC_OPTS" -encoding "UTF-8" -d target/classes -classpath $CLASSPATH
+
+find src/test/java -type f -name \*.java | xargs javac "$JAVAC_OPTS" -encoding "UTF-8" -d target/test-classes -classpath $CLASSPATH_TEST
 
 echo "Compile done"
