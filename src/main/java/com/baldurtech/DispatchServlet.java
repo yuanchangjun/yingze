@@ -12,6 +12,9 @@ public class DispatchServlet extends HttpServlet{
         
     }
     public String getActionClassNameByUri(String uri){
-            return null;
+        String[] uriParts = uri.split("/");
+        String actionClassName = uriParts[1];
+        actionClassName = actionClassName.substring(0,1).toUpperCase()+actionClassName.substring(1);
+        return "com.baldurtech." + actionClassName + "Action";        
     }
 }
