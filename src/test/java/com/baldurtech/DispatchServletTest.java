@@ -11,15 +11,12 @@ public class DispatchServletTest extends TestCase{
     }
 
     public void test_uri_contact_应该由ContactAction来处理(){       
-        assertEquals(actionClassName,dispatchServlet.getActionClassNameByUri("/contact"));
+        assertEquals(actionClassName,dispatchServlet.getActionClassNameByUri("/contact.jsp"));
     }
     public void test_uri_contact_show_的处理方法是show(){
         assertEquals("show",dispatchServlet.getActionMethodNameByUri("/contact/show.jsp"));
     }
-    public void test_uri_contact_的默认处理方法是index(){
-        assertEquals("index",dispatchServlet.getActionMethodNameByUri("/contact"));
-    }
-    public void test_uri_contact_with_slash_suffix_的默认处理方法是index(){
-        assertEquals("index",dispatchServlet.getActionMethodNameByUri("/contact/"));
+    public void test_uri_contact_的默认处理方法是index(){      
+        assertEquals("index",dispatchServlet.getActionMethodNameByUri("/contact.jsp"));
     }
 } 
