@@ -15,7 +15,7 @@ public class ContactRepositoryTest extends TestCase{
         ContactRepository contactRepository = new ContactRepository(db);
         Contact contact = new Contact();
         contact.setId(2L);
-        contact.setName("Tom");
+        contact.setName("Tom");        
         contactRepository.update(contact);
         assertEquals("UPDATE contact SET name=tom WHERE id=2",db.executeUpdateParm);
     }
