@@ -1,19 +1,40 @@
 package com.baldurtech;
 
 import java.io.IOException;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+
 public class DispatchServlet extends HttpServlet{
-    public void service(HttpServletRequest req,HttpServletResponse resp) 
+    public void service(HttpServletRequest request,HttpServletResponse response) 
         throws IOException,ServletException{        
         
-    }
+        try{
+            String uri = request.getRequestURI();
+            ActionContext actionContext = new ActionContextImpl(getServletContext(),request,response);
+            Class actionClass = getActionByUri(uri);
+            @SuppressWarnings("unchecked")
+            Constructor actionConstructor = actionClass.getDeclaredConstructor(ActionContext.class);
+            Action actionInstance = (Action) actionConstructor.newInstance(actionContext);
+            @SuppressWarnings("unchecked")
+            Method method = actionClass.getDeclaredMethod(getActionMethodNameByUri(uri));
+            method.invoke(actionInstance);
+        }catch(Exception e){
+
+        }
+    }    
      
     public String defaultPackageName = "com.baldurtech";
     public String defaultSuffix = ".jsp";
+
+    public Class getActionByUri(String uri) throws Exception{
+        return Class.forName(getActionClassNameByUri(uri));
+    }
 
     public String getActionClassNameByUri(String uri){
         int indexOfActionClassName = 1;
@@ -39,9 +60,6 @@ public class DispatchServlet extends HttpServlet{
     }
     public String removeDefaultSuffix(String str){
         return str.replace(defaultSuffix,"");
-    }
-    public String getViewPage(String uri){
-        return "/WEB-INF/jsp" + uri;        
-    }
+    }    
 
 }

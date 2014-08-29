@@ -18,8 +18,5 @@ public class DispatchServletTest extends TestCase{
     }
     public void test_uri_contact_的默认处理方法是index(){      
         assertEquals("index",dispatchServlet.getActionMethodNameByUri("/contact.jsp"));
-    }
-    public void test_uri_contact_show_的显示页面应该是_jsp_contact_show(){
-        assertEquals("/WEB-INF/jsp/contact/show.jsp",dispatchServlet.getViewPage("/contact/show.jsp"));
-    }
+    }   
 } 
