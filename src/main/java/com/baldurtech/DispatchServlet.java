@@ -1,5 +1,7 @@
 package com.baldurtech;
 
+import java.util.Map;
+
 import java.io.IOException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +17,7 @@ public class DispatchServlet extends HttpServlet{
         throws IOException,ServletException{        
         
         try{
-            String uri = request.getRequestURI();
+            String uri = getUri(request);
             ActionContext actionContext = new ActionContextImpl(getServletContext(),request,response);
             Class actionClass = getActionByUri(uri);
             @SuppressWarnings("unchecked")
@@ -23,7 +25,23 @@ public class DispatchServlet extends HttpServlet{
             Action actionInstance = (Action) actionConstructor.newInstance(actionContext);
             @SuppressWarnings("unchecked")
             Method method = actionClass.getDeclaredMethod(getActionMethodNameByUri(uri));
-            method.invoke(actionInstance);
+            Object returnValue = method.invoke(actionInstance);
+            if(null == returnValue){
+                return;
+            }
+
+            if(returnValue instanceof Map){
+                @SuppressWarnings("unchecked")
+                Map<String, Object> dataModel = (Map<String, Object>)returnValue;
+                for(String key: dataModel.keySet()){
+                    request.setAttribute(key, dataModel.get(key));
+                }
+            }else{
+                request.setAttribute("data",returnValue);
+            }
+            getServletContext()
+                .getRequestDispatcher(getViewPage(uri))
+                .forward(request,response);
         }catch(Exception e){
 
         }
@@ -32,8 +50,16 @@ public class DispatchServlet extends HttpServlet{
     public String defaultPackageName = "com.baldurtech";
     public String defaultSuffix = ".jsp";
 
+    public String getUri(HttpServletRequest request){
+        return request.getRequestURI().replace(request.getContextPath(),"");
+    }
+
     public Class getActionByUri(String uri) throws Exception{
         return Class.forName(getActionClassNameByUri(uri));
+    }    
+    
+    public String getViewPage(String uri){
+        return "/WEB-INF/jsp" + uri;
     }
 
     public String getActionClassNameByUri(String uri){
